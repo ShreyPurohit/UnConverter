@@ -9,15 +9,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity {
-    private Button button;
+//    private Button button;
     private TextView textview;
     private EditText editText;
+
+    private final static DecimalFormat df = new DecimalFormat("#.##");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button = findViewById(R.id.button);
+//        button = findViewById(R.id.button);
         textview= findViewById(R.id.textView);
         editText= findViewById(R.id.editText);
 //        button.setOnClickListener(new View.OnClickListener() {
@@ -35,8 +39,12 @@ public class MainActivity extends AppCompatActivity {
     {
         Toast.makeText(MainActivity.this, "Operation Successfully \n Enter another Value", Toast.LENGTH_SHORT).show();
         String s= editText.getText().toString();
+        if(s.equals("")){
+            textview.setText(R.string.errorMsg);
+            return;
+        }
         int kg= Integer.parseInt(s);
         double pound= 2.205*kg;
-        textview.setText("The corresponding value in pound is: " + pound);
+        textview.setText(String.format("%s%s", getString(R.string.result), df.format(pound)));
     }
 }
